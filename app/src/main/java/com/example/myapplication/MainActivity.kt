@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.DataBindingUtil
 import com.example.myapplication.databinding.ActivityMainBinding
+import timber.log.Timber
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -20,16 +21,30 @@ class MainActivity : AppCompatActivity(), TextWatcher {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Timber.plant(Timber.DebugTree())
+
+        Timber.e("onCreate")
+
         viewModel = MyViewModel(application)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.editText.addTextChangedListener(this)
 
+        viewModel.searchResult.observeForever { result ->
+            result.onSuccess {
+                Timber.e(it.toString())
+            }
+            result.onFailure {
+                Timber.e(it.toString())
+            }
+        }
+
     }
 
     private fun doSearch(text: String) {
-
+        Timber.e("doSearch:%s", text)
+        viewModel.searchRepository(text)
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -37,6 +52,7 @@ class MainActivity : AppCompatActivity(), TextWatcher {
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        Timber.e("onTextChanged")
         val text = binding.editText.text.toString()
 
         timer.cancel()
@@ -49,4 +65,5 @@ class MainActivity : AppCompatActivity(), TextWatcher {
     override fun afterTextChanged(s: Editable?) {
         //NOP
     }
+
 }

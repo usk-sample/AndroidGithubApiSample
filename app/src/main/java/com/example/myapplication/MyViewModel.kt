@@ -14,10 +14,11 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     private var _searchResult: MutableLiveData<Result<SearchResponse>> = MutableLiveData()
     val searchResult: LiveData<Result<SearchResponse>> get() = _searchResult
 
-
+    //API
     private val provider: GithubRetrofitProvider = GithubRetrofitProvider()
     private val repository: GithubRepository = GithubRepository(provider.retrofit)
 
+    //リポジトリを検索
     fun searchRepository(query: String) {
         repository.searchRepository(query).also { response ->
             if (response.isSuccessful) {

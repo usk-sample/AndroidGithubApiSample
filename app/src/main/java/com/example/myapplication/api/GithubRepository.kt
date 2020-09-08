@@ -5,9 +5,9 @@ import retrofit2.Retrofit
 
 class GithubRepository(private val retrofit: Retrofit) {
 
-    fun searchRepository() : Response<SearchResponse> {
+    fun searchRepository(query: String) : Response<SearchResponse> {
         val service = retrofit.create(GithubInterface::class.java)
-        return service.getSearchRepositories().execute()
+        return service.getSearchRepositories(query).execute()
     }
 
 }

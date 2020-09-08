@@ -29,12 +29,14 @@ class MainActivity : AppCompatActivity(), TextWatcher {
     }
 
     private fun doSearch(text: String) {
-        
+
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         //NOP
+    }
 
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         val text = binding.editText.text.toString()
 
         timer.cancel()
@@ -42,10 +44,6 @@ class MainActivity : AppCompatActivity(), TextWatcher {
         timer.schedule(delay) {
             this@MainActivity.doSearch(text)
         }
-    }
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
     }
 
     override fun afterTextChanged(s: Editable?) {

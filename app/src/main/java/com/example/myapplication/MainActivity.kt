@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity(), TextWatcher {
 
         Timber.plant(Timber.DebugTree())
 
-        Timber.e("onCreate")
-
         viewModel = MyViewModel(application)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -42,6 +40,7 @@ class MainActivity : AppCompatActivity(), TextWatcher {
 
     }
 
+    /// 検索を行う
     private fun doSearch(text: String) {
         Timber.e("doSearch:%s", text)
         viewModel.searchRepository(text)
@@ -52,9 +51,9 @@ class MainActivity : AppCompatActivity(), TextWatcher {
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        Timber.e("onTextChanged")
         val text = binding.editText.text.toString()
 
+        //タイピングが終わったら検索
         timer.cancel()
         timer = Timer()
         timer.schedule(delay) {
